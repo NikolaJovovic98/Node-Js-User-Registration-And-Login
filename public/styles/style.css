@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@300&display=swap');
+
+body{
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Fraunces', serif;
+
+}
+
+input,button{
+  font-family: 'Fraunces', serif;
+
+    outline: none;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  li {
+    float: left;
+    border-right:1px solid #bbb;
+  }
+  
+  li:last-child {
+    border-right: none;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: rgb(245, 89, 89);
+  }
+
+#blog-list{
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+}
+
+.one-blog-div{
+  border-radius: 10px;
+  margin: 10px;
+  text-align: center;
+  background-color: rgba(245, 222, 179, 0.692);
+  padding: 10px;
+}
+
+.one-blog-div>form>button {
+  background-color: rgba(255, 68, 0, 0.637);
+  color: black;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+ 
+#add-blog {
+  border: 3px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+  
+  width: 40%;
+  margin: auto;
+  margin-top: 50px;
+}
+#add-blog div{
+  margin: 10px;
+}
+
+
+
+
+button:hover{
+  opacity: 85%;
+}
+
+#show-one-blog-div {
+  background-color: rgba(220, 220, 220, 0.658);
+  border-radius: 10px;
+  border: 2px solid black;
+  width: 60%;
+  margin: auto;
+  margin-top: 50px;
+  padding: 10px;
+  text-align: center;
+}
+
+#register-form {
+background-color: bisque;
+padding: 10px;
+}
+
+#register-form div{
+  margin: 10px;
+}
+button{
+  cursor: pointer;
+  padding: 10px;
+}

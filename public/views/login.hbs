@@ -1,0 +1,32 @@
+{{> header}}
+{{> nav}}
+
+<h1>Login</h1>
+{{#if success_msg}}
+<h3 style="color: green;">{{success_msg}}</h3>
+{{/if}}
+{{#if error}}
+<h3 style="color: red;">{{error}}</h3>
+{{/if}}
+{{#if error_msg}}
+<h3 style="color: red;">{{error_msg}}</h3>
+{{/if}}
+<div id="register-form">
+    <form action="/users/login" method="POST">
+        <div>
+            <label for="name">Email</label>
+            <input type="email" name="email" required>
+        </div>
+        <div>
+            <label for="name">Password</label>
+            <input type="password" name="password" required>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+
+    </form>
+</div>
+    <a href="/users/register">Dont have an accont? <strong>Register</strong></a>
+
+{{> footer}}

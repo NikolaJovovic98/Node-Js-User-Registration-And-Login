@@ -1,0 +1,11 @@
+{{> header}}
+{{> nav}}
+
+<h1>Welcome {{user}}, feel free to explore our website.</h1>
+<p>User ID: {{id}}</p>
+
+<form action="/users/logout" method="POST">
+    <button type="submit">Logout</button>
+</form>
+
+{{> footer}}
