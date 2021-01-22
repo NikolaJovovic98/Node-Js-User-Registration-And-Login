@@ -1,3 +1,7 @@
+/*jedan korisnik može da obavlja
+operacije nad više knjiga, a sa jednom knjigom može da upravlja samo jedan
+korisnik*/
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -17,10 +21,13 @@ const userSchema = new Schema({
         required:true,
         min:5
     },
-    date:{
-        type:Date,
-        default:Date.now
-    }
+    role:{
+        type:Number,
+        required:true
+    },
+    book:[{
+        type:Schema.Types.ObjectId,
+    }]
 },{timestamps:true});
 
 const User = mongoose.model("User",userSchema);

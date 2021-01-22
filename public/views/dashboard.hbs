@@ -1,11 +1,13 @@
 {{> header}}
 {{> nav}}
 
-<h1>Welcome {{user}}, feel free to explore our website.</h1>
-<p>User ID: {{id}}</p>
+<h1>Welcome {{user}} <br>Add, Delete or Update a book!</h1>
 
-<form action="/users/logout" method="POST">
+<a href="/books/add" style="font-size: 23px;margin: 20px;color: coral;">Click here to add new Book!</a>
+
+<form action="/users/logout" method="POST" style="margin-top: 20px;">
     <button type="submit">Logout</button>
 </form>
+
 
 {{> footer}}

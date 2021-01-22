@@ -12,6 +12,10 @@ input,button{
 
     outline: none;
 }
+textarea {
+  resize: none;
+  outline: none;
+}
 
 ul {
     list-style-type: none;
@@ -79,11 +83,8 @@ a{
   margin-top: 50px;
 }
 #add-blog div{
-  margin: 10px;
+  margin: 20px;
 }
-
-
-
 
 button:hover{
   opacity: 85%;
@@ -106,7 +107,7 @@ padding: 10px;
 }
 
 #register-form div{
-  margin: 10px;
+  margin: 20px;
 }
 button{
   cursor: pointer;

@@ -1,0 +1,47 @@
+{{> header}}
+{{> nav}}
+
+<h1 style="margin: 20px;">Add Book </h1>
+
+
+<div id="register-form">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="bookname">Book Name: </label>
+            <input type="text" name="bookname" required>
+        </div>
+        <div style="display: flex;flex-direction: row;align-items: center;">
+            <label for="bookdesc" style="margin-right: 10px;">Short Description: </label>
+            <textarea name="bookdesc" cols="40" rows="5" required></textarea>
+        </div>
+         <div>
+            <label for="bookimg">Upload Book Image: </label>
+            <input type="file" name="bookimg" required>
+        </div>
+        <div>
+            <label for="bookprice">Price &euro;: </label>
+            <input type="number" name="bookprice" min="1" max="10000" required>
+        </div>
+         <div>
+            <label for="bookquant">Quantity: </label>
+            <input type="number" name="bookquant" min="1" max="10" required>
+        </div>
+         <div>
+            <label for="bookpages">Pages: </label>
+            <input type="number" name="bookpages" min="10" max="5000" required>
+        </div>
+        <div>
+            <label for="bookuser">User Who Added Book: </label>
+            <input type="text" name="bookuser" value="LOGGED USER ID HERE">
+        </div>
+
+
+        <div>
+            <button type="submit">Add</button>
+        </div>
+
+    </form>
+</div>
+
+
+{{> footer}}

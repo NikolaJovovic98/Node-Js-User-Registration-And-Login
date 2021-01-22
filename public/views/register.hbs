@@ -27,11 +27,14 @@
             <input type="password" name="password2" required>
         </div>
         <div>
+            <label for="role">Role: (0-Basic)(1-Admin)</label>
+            <input type="number" name="role" min="0" max="1" required>
+        </div>
+        <div>
             <button type="submit">Register</button>
         </div>
 
     </form>
 </div>
-    <a href="/login">Login</a>
 
 {{> footer}}

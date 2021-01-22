@@ -1,9 +1,14 @@
 {{> header}}
 {{> nav}}
 
+<div style="margin: 20px;">
 <h1>Login</h1>
+
 {{#if success_msg}}
 <h3 style="color: green;">{{success_msg}}</h3>
+{{/if}}
+{{#if successFlash}}
+<h3 style="color: green;">{{successFlash}}</h3>
 {{/if}}
 {{#if error}}
 <h3 style="color: red;">{{error}}</h3>
@@ -11,15 +16,16 @@
 {{#if error_msg}}
 <h3 style="color: red;">{{error_msg}}</h3>
 {{/if}}
+</div>
 <div id="register-form">
     <form action="/users/login" method="POST">
         <div>
-            <label for="name">Email</label>
-            <input type="email" name="email" required>
+            <label for="name">Email: </label>
+            <input type="email" name="emailLogin" required>
         </div>
         <div>
-            <label for="name">Password</label>
-            <input type="password" name="password" required>
+            <label for="name">Password: </label>
+            <input type="password" name="passwordLogin" required>
         </div>
         <div>
             <button type="submit">Login</button>
@@ -27,6 +33,6 @@
 
     </form>
 </div>
-    <a href="/users/register">Dont have an accont? <strong>Register</strong></a>
+    <a href="/users/register" style="margin: 20px;">Dont have an accont? <strong>Register</strong></a>
 
 {{> footer}}
