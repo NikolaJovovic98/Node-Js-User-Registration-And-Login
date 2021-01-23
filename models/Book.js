@@ -39,6 +39,11 @@ const bookSchema = new Schema({
         min:10,
         max:5000,
         default:10
+   },
+   user: {
+       type:Schema.Types.ObjectId,
+       required:true,
+       ref: 'User'
    }
 },{timestamps:true});
 

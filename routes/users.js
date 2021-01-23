@@ -5,8 +5,11 @@ const bcrypt = require("bcrypt");//za hasovanje pasvorda
 const passport = require("passport");
 const {checkAuthentication} = require("../config/auth");
 //All Users
-router.get('/', (req, res) => {
-    res.render("allUsers.hbs");
+router.get('/',async (req, res) => {
+    const allUsers = await User.find().sort({ createdAt: -1 });
+    res.render("allUsers.hbs",{
+        users:allUsers
+    });
 });
 
 //Login Get

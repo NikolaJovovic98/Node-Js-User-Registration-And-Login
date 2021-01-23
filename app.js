@@ -1,5 +1,6 @@
 require("dotenv").config(); //Citanje podataka iz .env fajla
 const express = require("express"); //Server
+const app = express();
 const session = require("express-session"); //Express sesija
 const hbs = require("hbs"); //handlebars 
 const flash = require("connect-flash"); //Fles poruke
@@ -8,12 +9,11 @@ const mongoose = require("mongoose"); // Baza podataka
 const bodyParser = require("body-parser"); //Uzimanje podataka sa forme 
 require("./config/passport")(passport); //U config/passport.js imamo citavu konfiguraciju za passport 
 //i predajemo passport varijablu koju smo gore napravili da bi radilo
-
 const expressFileUpload = require("express-fileupload");
+app.use(expressFileUpload());
 
-
-//Inicijalizujemo aplikaciju
-const app = express();
+const pathToUpload = __dirname+"/public/images/";
+module.exports = pathToUpload;
 
 //Postavljamo view engine na hbs
 //Postavljamo da je static fajl public
@@ -22,6 +22,7 @@ const app = express();
 app.set("view engine", "hbs");
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.set('views', "public/views");
 
 //Express Session
@@ -72,7 +73,7 @@ hbs.registerPartials(__dirname + "/public/views/components");
 
 //Const function to connect do database
 const connect = () => {
-    return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true });
 }
 
 //Database promise connection and connecting to server 

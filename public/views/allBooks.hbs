@@ -1,7 +1,30 @@
 {{> header}}
 {{> nav}}
+{{#if success_msg}}
+<h3 style="color: green;">{{success_msg}}</h3>
+{{/if}}
 
 <h1 style="margin: 20px;">All Books </h1>
 
+{{#if books}}
+{{#each books}}
+
+<div id="book-div">
+    <div class="title-image">
+        <h2>{{name}}</h2>
+        <img src="{{img}}" alt="No Image">
+    </div>
+    <div class="book-info">
+        <p>Short Description: <strong>{{description}}</strong></p>
+        <hr>
+        <p>Price: <strong>{{price}}&euro;</strong></p>
+        <p>Quantity: <strong>{{quantity}}</strong></p>
+        <p>Pages: <strong>{{pages}}</strong></p>
+        <p>Added By: <strong>{{user}}</strong></p>
+    </div>
+</div>
+
+{{/each}}
+{{/if}}
 
 {{> footer}}

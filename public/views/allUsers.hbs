@@ -4,4 +4,15 @@
 <h1 style="margin: 20px;">All Users </h1>
 
 
+{{#if users}}
+{{#each users}}
+
+<div id="user-div">
+    <h2>{{name}}</h2>
+</div>
+
+{{/each}}
+{{/if}}
+
+
 {{> footer}}

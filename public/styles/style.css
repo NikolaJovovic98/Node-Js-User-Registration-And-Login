@@ -113,3 +113,56 @@ button{
   cursor: pointer;
   padding: 10px;
 }
+
+#book-div{
+  border: 3px solid darkslategray;
+  background-color:rgba(255, 127, 80, 0.336);
+  width: 60%;
+  margin: auto;
+  padding: 5px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  transition: 0.60s;
+}
+
+#book-div:hover{
+  background-color:rgba(252, 104, 50, 0.575);
+}
+
+.title-image{
+ 
+  text-align: center;
+}
+.title-image img{
+  width: 200px;
+  border-radius: 7px;
+}
+
+.book-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 2px solid black;
+  font-size: 18px;
+}
+
+hr{
+  width: 100%;
+}
+
+#user-div{
+  border: 3px solid darkslategray;
+  background-color:rgba(255, 127, 80, 0.336);
+  width: 15%;
+  margin-bottom: 10px;
+  margin: auto;
+  text-align: center;
+  border-radius: 7px;
+  transition: 0.60s;
+}
+
+#user-div:hover{
+  background-color:rgba(252, 104, 50, 0.575);
+}
