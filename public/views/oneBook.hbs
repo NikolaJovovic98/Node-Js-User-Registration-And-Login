@@ -1,9 +1,27 @@
 {{> header}}
 {{> nav}}
 
-<h1 style="margin: 20px;">One Book </h1>
+<h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{bookName}}</h1>
 
-<h2>Book id: {{bookId}}</h2>
+<div id="one-book">
+
+    <div id="one-book-desc">
+       <p style="text-align: center;">Short book description: </p><strong><p style="font-style: italic;">{{bookDesc}}</p></strong>
+    </div>
+    <hr>
+    <div id="one-book-info-img">
+        <div id="one-book-info">
+            <p>Price: <strong>{{bookPrice}}&euro;</strong></p>
+            <p>Quantity: <strong>{{bookQuant}}</strong></p>
+            <p>Number of pages: <strong>{{bookPages}}</strong></p>
+        </div>
+    </div>
+    <hr>
+    <div id="one-book-user">
+        <p>Book added by: <a href="/users/show/{{user}}"><strong>{{user}}</strong></a></p>
+    </div>
+
+</div>
 
 
 {{> footer}}

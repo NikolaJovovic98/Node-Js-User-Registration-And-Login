@@ -146,6 +146,10 @@ button{
   justify-content: center;
   border-left: 2px solid black;
   font-size: 18px;
+  
+}
+.book-info p {
+  margin-left: 10px;
 }
 
 hr{
@@ -161,8 +165,18 @@ hr{
   text-align: center;
   border-radius: 7px;
   transition: 0.60s;
+  margin-bottom: 10px;
 }
 
 #user-div:hover{
   background-color:rgba(252, 104, 50, 0.575);
+}
+
+#one-book{
+  padding: 10px;
+  border-radius: 7px;
+  background-color:rgba(255, 127, 80, 0.336);
+  margin: 10px;
+  width: 40%;
+  margin: auto;
 }

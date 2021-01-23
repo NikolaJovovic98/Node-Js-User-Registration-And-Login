@@ -7,10 +7,11 @@
 {{#if users}}
 {{#each users}}
 
-<div id="user-div">
-    <h2>{{name}}</h2>
-</div>
-
+<a href="/users/show/{{name}}">
+    <div id="user-div" >
+        <h2>{{name}}</h2>
+    </div>
+</a>
 {{/each}}
 {{/if}}
 

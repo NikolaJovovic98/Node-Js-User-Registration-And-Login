@@ -1,6 +1,7 @@
 const express = require('express'); //express framework
 const router = require("express").Router(); //izvuci Router tj mogucnost rutiranja iz expressa
 const User = require("../models/User"); //User model 
+const Book = require("../models/Book"); //User model 
 const bcrypt = require("bcrypt");//za hasovanje pasvorda
 const passport = require("passport");
 const {checkAuthentication} = require("../config/auth");
@@ -9,6 +10,22 @@ router.get('/',async (req, res) => {
     const allUsers = await User.find().sort({ createdAt: -1 });
     res.render("allUsers.hbs",{
         users:allUsers
+    });
+});
+
+//Show One User
+router.get("/show/:userName",async (req,res)=>{
+    const user = await User.findOne({name:req.params.userName});
+    const books = await Book.find({user:user._id}).sort({ createdAt: -1 });
+    let role = "Basic User";
+    if(user.role === 1){
+        role="Admin";
+    }
+    res.render("oneUser.hbs",{
+        userName:user.name,
+        userEmail:user.email,
+        userRole:role,
+        books:books
     });
 });
 

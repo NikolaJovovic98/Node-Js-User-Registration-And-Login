@@ -1,9 +1,36 @@
 {{> header}}
 {{> nav}}
 
-<h1 style="margin: 20px;">One User </h1>
+<h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{userName}}</h1>
 
-<h2>User id: {{userId}}</h2>
+   <div id="one-book-desc">
+            <p>Email: <strong>{{userEmail}}</strong></p>
+            <p>Role: <strong>{{userRole}}</strong></p>
+    </div>
+    <hr>
+    <h1 
+    style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;font-size: 23px;">
+    Books added by {{userName}}
+    </h1>
+    
+{{#if books}}
+{{#each books}}
 
+<a href="/books/show/{{name}}">
+    <div id="book-div">
+        <div class="title-image">
+            <h2>{{name}}</h2>
+            <img src="{{img}}" alt="No Image">
+        </div>
+        <div class="book-info">
+            <p>Short Description: <strong>{{description}}</strong></p>
+            <hr>
+            <h3 style="text-align: center;">Enter for more information!</h3>
+        </div>
+    </div>
+</a>
+
+{{/each}}
+{{/if}}
 
 {{> footer}}
