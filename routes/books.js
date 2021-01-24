@@ -4,6 +4,7 @@ const Book = require("../models/Book"); //User model
 const { checkAuthentication } = require("../config/auth");
 const uploadsFolder = require("../app");
 const User = require('../models/User');
+const { bookPermission } = require("../config/bookAuth");
 
 //za brisanje slike fs.unlink(path, callback) var fs = require('fs');
 
@@ -16,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 //Prikazi jednu knjigu
-router.get("/show/:bookName", async (req, res) => {
+router.get("/show/:bookName",bookPermission ,async (req, res) => {
     const book = await Book.findOne({ name: req.params.bookName });
     const userWhoAddedBook = await User.findOne({ _id: book.user });
     res.render("oneBook.hbs", {

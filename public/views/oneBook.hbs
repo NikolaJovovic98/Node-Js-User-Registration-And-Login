@@ -6,7 +6,9 @@
 <div id="one-book">
 
     <div id="one-book-desc">
-       <p style="text-align: center;">Short book description: </p><strong><p style="font-style: italic;">{{bookDesc}}</p></strong>
+        <p style="text-align: center;">Short book description: </p><strong>
+            <p style="font-style: italic;">{{bookDesc}}</p>
+        </strong>
     </div>
     <hr>
     <div id="one-book-info-img">
@@ -18,7 +20,14 @@
     </div>
     <hr>
     <div id="one-book-user">
-        <p>Book added by: <a href="/users/show/{{user}}"><strong>{{user}} <i class="fa fa-user" aria-hidden="true"></i></strong></a></p>
+        <p>Book added by {{#if canEdit}}You{{/if}}: <a href="/users/show/{{user}}"><strong>{{user}} <i class="fa fa-user"
+                        aria-hidden="true"></i></strong></a></p>
+        {{#if canEdit}}
+        <a href="#"><button class="edit-book"><strong>Edit Book Info</strong></button></a>
+        <form action="#" method="" class="delete-book">
+            <button type="submit">Delete</button>
+        </form>
+        {{/if}}
     </div>
 
 </div>

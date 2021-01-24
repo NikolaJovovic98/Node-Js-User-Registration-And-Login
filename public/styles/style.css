@@ -185,3 +185,41 @@ hr{
   width: 40%;
   margin: auto;
 }
+
+.delete-book{
+  margin-top: 10px;
+  
+}
+
+.delete-book button{
+  border-radius: 7px;
+  font-weight: bold;
+  background-color: rgba(255, 16, 16, 0.74);
+  border: none;
+  outline: none;
+  padding: 15px;
+  color: white;
+  font-size: 16px;
+}
+.edit-book{
+  border-radius: 7px;
+  font-weight: bold;
+  background-color: rgba(14, 129, 48, 0.74);
+  border: none;
+  outline: none;
+  padding: 15px;
+  color: white;
+  font-size: 16px;
+}
+
+.edit-user{
+  border-radius: 7px;
+  font-weight: bold;
+  background-color: rgba(14, 129, 48, 0.74);
+  border: none;
+  outline: none;
+  padding: 15px;
+  color: white;
+  font-size: 16px;
+  margin-left: 20px;
+}

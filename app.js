@@ -55,6 +55,7 @@ app.use((req, res, next) => {
     next();
 });
 
+
 //Routes
 //Rutiranje ne bi trebalo raditi u app.js zbog nagomilavanja i lakseg citanja to treba odvojiti
 //u folder routes i u njega odrediti rute npr rute koje sluze za prikazivanje pocetne stranice

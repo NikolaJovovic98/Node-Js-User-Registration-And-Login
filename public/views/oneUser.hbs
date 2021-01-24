@@ -11,7 +11,7 @@
             <p>Email: <strong>{{userEmail}} <i class="fa fa-envelope" aria-hidden="true"></i></strong></p>
             <p>Role: <strong>{{userRole}}</strong></p>
             {{#if canEdit}}
-            <a href="/users/update/{{userName}}"><button style="margin: 10px;"><strong>Edit Profile Info</strong></button></a>
+            <a href="/users/update/{{userName}}"><button class="edit-user"><strong>Edit Profile Info</strong></button></a>
             {{/if}}
     </div>
     <hr>
@@ -36,6 +36,7 @@
             <h3 style="text-align: center;">Enter for more information!</h3>
         </div>
     </div>
+   
 </a>
 
 {{/each}}

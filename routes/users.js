@@ -59,15 +59,6 @@ router.post("/update/:userName",async(req,res)=>{
     }
 });
 
-/*
-await Blog.findOneAndUpdate({ _id: req.params.blogId }, {
-        title: req.body.titleForm,
-        snippet: req.body.snippetForm,
-        body: req.body.bodyForm
-    });
-    res.redirect(`/blogs/${req.params.blogId}`);
-*/
-
 //Login Get
 router.get('/login', (req, res) => {
     if(req.user){
