@@ -21,6 +21,7 @@ module.exports = pathToUpload;
 //I stavljamo da su views u public/viewst
 app.set("view engine", "hbs");
 app.use(express.static('public'));
+app.use(express.static('public/images'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', "public/views");
@@ -70,6 +71,7 @@ app.use("/books", require("./routes/books"));
 port = process.env.PORT || 3000;
 
 hbs.registerPartials(__dirname + "/public/views/components");
+hbs.registerPartials(__dirname + "/public/images");
 
 //Const function to connect do database
 const connect = () => {

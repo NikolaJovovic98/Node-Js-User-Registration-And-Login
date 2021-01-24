@@ -5,6 +5,7 @@ const Book = require("../models/Book"); //User model
 const bcrypt = require("bcrypt");//za hasovanje pasvorda
 const passport = require("passport");
 const {checkAuthentication} = require("../config/auth");
+const {userPermission} = require("../config/userAuth");
 //All Users
 router.get('/',async (req, res) => {
     const allUsers = await User.find().sort({ createdAt: -1 });
@@ -14,9 +15,11 @@ router.get('/',async (req, res) => {
 });
 
 //Show One User
-router.get("/show/:userName",async (req,res)=>{
+router.get("/show/:userName",userPermission,async (req,res)=>{
     const user = await User.findOne({name:req.params.userName});
-    const books = await Book.find({user:user._id}).sort({ createdAt: -1 });
+    const booksTest =  await User.findOne({name:req.params.userName})
+                                 .populate('book')
+                                 .exec();
     let role = "Basic User";
     if(user.role === 1){
         role="Admin";
@@ -25,9 +28,45 @@ router.get("/show/:userName",async (req,res)=>{
         userName:user.name,
         userEmail:user.email,
         userRole:role,
-        books:books
+        books:booksTest.book
     });
 });
+
+//Update User Info Get
+router.get("/update/:userName",checkAuthentication,async(req,res)=>{
+    const updateUserInfo = await User.findOne({name:req.params.userName});
+    res.render("updateUserForm.hbs",{
+        inputUserName:updateUserInfo.name,
+        inputUserEmail:updateUserInfo.email,
+
+    });
+});
+
+//Update User Info Post
+router.post("/update/:userName",async(req,res)=>{
+    const checkUserName = await User.findOne({name:req.body.nameUpdate});
+    if(checkUserName){
+        req.flash("error_msg","Username and Email must be unique! Try again.");
+        res.redirect(`/users/update/${req.params.userName}`);
+    }else {
+        await User.findOneAndUpdate({name:req.params.userName},{
+            name: req.body.nameUpdate,
+            email:req.body.emailUpdate
+        });
+        const redirectUser = await User.findOne({name:req.body.nameUpdate});
+        req.flash("success_msg","Profile Updated!");
+        res.redirect(`/users/show/${redirectUser.name}`);
+    }
+});
+
+/*
+await Blog.findOneAndUpdate({ _id: req.params.blogId }, {
+        title: req.body.titleForm,
+        snippet: req.body.snippetForm,
+        body: req.body.bodyForm
+    });
+    res.redirect(`/blogs/${req.params.blogId}`);
+*/
 
 //Login Get
 router.get('/login', (req, res) => {

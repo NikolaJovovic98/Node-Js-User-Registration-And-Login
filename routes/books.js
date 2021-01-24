@@ -5,6 +5,8 @@ const { checkAuthentication } = require("../config/auth");
 const uploadsFolder = require("../app");
 const User = require('../models/User');
 
+//za brisanje slike fs.unlink(path, callback) var fs = require('fs');
+
 //Prikazi sve knjige
 router.get("/", async (req, res) => {
     const allBooks = await Book.find().sort({ createdAt: -1 });

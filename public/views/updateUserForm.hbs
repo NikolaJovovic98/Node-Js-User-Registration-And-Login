@@ -1,0 +1,24 @@
+{{> header}}
+{{> nav}}
+<div style="margin: 20px;">
+<h1>Update Profile</h1>
+</div>
+{{#if error_msg}}
+<h3 style="color: red;">{{error_msg}}</h3>
+{{/if}}
+<div id="register-form">
+    <form action="/users/update/{{inputUserName}}" method="POST">
+        <div>
+            <label for="username">Username: </label>
+            <input type="text" name="nameUpdate" value="{{inputUserName}}" placeholder="New username...">
+        </div>
+        <div>
+            <label for="email">Email: </label>
+            <input type="email" name="emailUpdate" value="{{inputUserEmail}}" placeholder="New email...">
+        </div>
+        <div>
+            <button type="submit">Submit Updates</button>
+        </div>
+
+    </form>
+</div>

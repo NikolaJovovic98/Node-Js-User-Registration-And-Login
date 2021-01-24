@@ -3,17 +3,18 @@
 
 <h1 style="margin: 20px;">All Users </h1>
 
-
+<div id="big-user-div">
 {{#if users}}
 {{#each users}}
 
+
 <a href="/users/show/{{name}}">
     <div id="user-div" >
-        <h2>{{name}}</h2>
+        <h2>{{name}} <i class="fa fa-user" aria-hidden="true"></i></h2>
     </div>
 </a>
 {{/each}}
 {{/if}}
-
+</div>
 
 {{> footer}}

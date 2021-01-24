@@ -159,13 +159,18 @@ hr{
 #user-div{
   border: 3px solid darkslategray;
   background-color:rgba(255, 127, 80, 0.336);
-  width: 15%;
+  width: 100%;
   margin-bottom: 10px;
   margin: auto;
   text-align: center;
   border-radius: 7px;
   transition: 0.60s;
   margin-bottom: 10px;
+}
+#big-user-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 #user-div:hover{

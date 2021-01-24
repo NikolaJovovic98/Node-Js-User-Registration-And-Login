@@ -1,18 +1,26 @@
 {{> header}}
 {{> nav}}
 
+{{#if success_msg}}
+<h3 style="color: green;">{{success_msg}}</h3>
+{{/if}}
+
 <h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{userName}}</h1>
 
    <div id="one-book-desc">
-            <p>Email: <strong>{{userEmail}}</strong></p>
+            <p>Email: <strong>{{userEmail}} <i class="fa fa-envelope" aria-hidden="true"></i></strong></p>
             <p>Role: <strong>{{userRole}}</strong></p>
+            {{#if canEdit}}
+            <a href="/users/update/{{userName}}"><button style="margin: 10px;"><strong>Edit Profile Info</strong></button></a>
+            {{/if}}
     </div>
     <hr>
     <h1 
     style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;font-size: 23px;">
-    Books added by {{userName}}
+    Books added by {{userName}} <i class="fa fa-book" aria-hidden="true"></i>
+
     </h1>
-    
+
 {{#if books}}
 {{#each books}}
 
@@ -20,10 +28,10 @@
     <div id="book-div">
         <div class="title-image">
             <h2>{{name}}</h2>
-            <img src="{{img}}" alt="No Image">
+            <img src="{{img}}" alt="{{img}}">
         </div>
         <div class="book-info">
-            <p>Short Description: <strong>{{description}}</strong></p>
+            <p style="text-align: center;"><strong>{{description}}</strong></p>
             <hr>
             <h3 style="text-align: center;">Enter for more information!</h3>
         </div>
