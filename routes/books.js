@@ -5,6 +5,7 @@ const { checkAuthentication } = require("../config/auth");
 const uploadsFolder = require("../app");
 const User = require('../models/User');
 const { bookPermission } = require("../config/bookAuth");
+const fs = require("fs");
 
 //za brisanje slike fs.unlink(path, callback) var fs = require('fs');
 
@@ -59,7 +60,16 @@ router.post("/update/:bookName", async (req, res) => {
 
 //Delete Obrisi knjigu
 router.post("/delete/:bookName",checkAuthentication, async (req, res) => {
+    const book = await Book.findOne({name:req.params.bookName});
     await Book.findOneAndDelete({ name: req.params.bookName });
+    const imgName = book.img.substring(book.img.lastIndexOf("/") + 1);
+    const fullPath = uploadsFolder+imgName;
+    fs.unlink(fullPath, (err)=>{
+        if(err){console.log("Error in deleting image: "+err);}
+        else{
+            console.log("Image successfully deleted.");
+        }
+    });
     req.flash("success_msg","Successful deleted book!");
     res.redirect(`/users/show/${req.user.name}`);
 });
