@@ -7,7 +7,7 @@
 <h3 style="color: red;">{{error_msg}}</h3>
 {{/if}}
 <div id="register-form">
-    <form action="/users/update/{{inputUserName}}" method="POST">
+    <form action="/users/update/{{inputUserName}}" method="POST"  class="delete-book">
         <div>
             <label for="username">Username: </label>
             <input type="text" name="nameUpdate" value="{{inputUserName}}" placeholder="New username...">
@@ -17,8 +17,9 @@
             <input type="email" name="emailUpdate" value="{{inputUserEmail}}" placeholder="New email...">
         </div>
         <div>
-            <button type="submit">Submit Updates</button>
+            <button type="submit" style="background-color: rgba(14, 129, 48, 0.74);">Submit Updates</button>
         </div>
-
     </form>
+     <a href="/users/show/{{inputUserName}}"><button class="edit-user" style="background-color: rgba(204, 164, 34, 0.856);"><strong>Cancel</strong></button></a>
+
 </div>

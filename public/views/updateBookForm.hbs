@@ -1,0 +1,40 @@
+{{> header}}
+{{> nav}}
+
+<h1 style="margin: 20px;">Update Book Information </h1>
+
+
+<div id="register-form">
+    
+    <form action="/books/update/{{inputBookName}}" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="bookname">Book Name: </label>
+            <input type="text" name="bookname" value="{{inputBookName}}">
+        </div>
+       
+        <div style="display: flex;flex-direction: row;align-items: center;">
+            <label for="bookdesc" style="margin-right: 10px;">Short Description: </label>
+            <textarea name="bookdesc" cols="40" rows="5" >{{inputBookDesc}}</textarea>
+        </div>
+
+        <div>
+            <label for="bookprice">Price &euro;: </label>
+            <input type="number" name="bookprice" min="1" max="10000" value="{{inputBookPrice}}">
+        </div>
+         <div>
+            <label for="bookquant">Quantity: </label>
+            <input type="number" name="bookquant" min="1" max="10" value="{{inputBookQuant}}">
+        </div>
+         <div>
+            <label for="bookpages">Pages: </label>
+            <input type="number" name="bookpages" min="10" max="5000" value="{{inputBookPages}}">
+        </div>       
+        <div>
+            <button type="submit" class="edit-user">Submit Update</button>
+        </div>
+    </form>
+         <a href="/books/show/{{inputBookName}}"><button class="edit-user" style="background-color: rgba(204, 164, 34, 0.856);"><strong>Cancel</strong></button></a>
+</div>
+
+
+{{> footer}}

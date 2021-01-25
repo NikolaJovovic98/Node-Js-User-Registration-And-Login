@@ -1,6 +1,10 @@
 {{> header}}
 {{> nav}}
 
+{{#if success_msg}}
+<h3 style="color: green;">{{success_msg}}</h3>
+{{/if}}
+
 <h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{bookName}}</h1>
 
 <div id="one-book">
@@ -23,8 +27,8 @@
         <p>Book added by {{#if canEdit}}You{{/if}}: <a href="/users/show/{{user}}"><strong>{{user}} <i class="fa fa-user"
                         aria-hidden="true"></i></strong></a></p>
         {{#if canEdit}}
-        <a href="#"><button class="edit-book"><strong>Edit Book Info</strong></button></a>
-        <form action="#" method="" class="delete-book">
+        <a href="/books/update/{{bookName}}"><button class="edit-book"><strong>Edit Book Info</strong></button></a>
+        <form action="/books/delete/{{bookName}}" method="POST" class="delete-book">
             <button type="submit">Delete</button>
         </form>
         {{/if}}

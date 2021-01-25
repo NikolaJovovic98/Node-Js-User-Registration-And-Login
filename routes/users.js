@@ -44,7 +44,7 @@ router.get("/update/:userName",checkAuthentication,async(req,res)=>{
 
 //Update User Info Post
 router.post("/update/:userName",async(req,res)=>{
-    const checkUserName = await User.findOne({name:req.body.nameUpdate});
+    const checkUserName = await User.findOne({name:req.body.nameUpdate}); //Mozda ovo treba da se makne nadji drugi nacin
     if(checkUserName){
         req.flash("error_msg","Username and Email must be unique! Try again.");
         res.redirect(`/users/update/${req.params.userName}`);
