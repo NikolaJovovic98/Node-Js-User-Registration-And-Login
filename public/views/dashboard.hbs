@@ -1,7 +1,10 @@
 {{> header}}
 {{> nav}}
+{{#if error_msg}}
+<h3 style="color: red;" style="text-align: center;">{{error_msg}}</h3>
+{{/if}}
 
-<h1>Welcome {{user}} <br>Add, Delete or Update a book!</h1>
+<h1 style="text-align: center;">Welcome {{user}} <br>Add, Delete or Update a book!</h1>
 
 <a href="/books/add" style="font-size: 23px;margin: 20px;color:rgb(26, 163, 26);"><strong>Click here to add new Book!</strong></a>
 <br>

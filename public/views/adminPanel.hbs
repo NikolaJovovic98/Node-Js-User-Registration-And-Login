@@ -1,0 +1,40 @@
+{{> header}}
+{{> nav}}
+
+<h1 style="text-align: center;">ADMIN PANEL</h1>
+{{#if success_msg}}
+<h3 style="color: green;text-align: center;">{{success_msg}}</h3>
+{{/if}}
+<div id="admin-user-list">
+
+    {{#if users}}
+    {{#each users}}
+    <div class="admin-one-user-div">
+        <div class="admin-one-user-info">
+            <p style="font-size: 18px;"><strong>{{name}}</strong></p>
+            <p>{{email}}</p>
+            <p>{{_id}}</p>
+        </div>
+        <hr>
+        <div class="admin-one-user-delete-show">
+            <div>
+                <form action="/users/delete/{{_id}}" method="POST" class="delete-book">
+                    <button type="submit">Delete User</button>
+                </form>
+            </div>
+            <div>
+                <a href="/users/show/{{name}}"><button class="show-user-admin">User Profile</button></a>
+            </div>
+            <div>
+                <form action="#" method="" class="delete-book">
+                    <button type="" style="background-color: rgb(255, 113, 61);">Make Admin</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{/if}}
+
+</div>
+
+{{> footer}}

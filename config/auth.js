@@ -3,7 +3,7 @@
 //provjeravamo ukoliko jeste return next u prevodu idi na sljedeci middlewer
 //ako nije ispisi fles poruku i redirektuj na users/login
 module.exports = {
-    checkAuthentication: function(req,res,next){
+    checkAuthentication: (req,res,next)=>{
         if(req.isAuthenticated()){
             return next();
         }

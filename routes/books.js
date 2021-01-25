@@ -88,9 +88,9 @@ router.post("/add", async (req, res) => {
     const uploadpath = uploadsFolder + bookimgname;
     const bookimgPath = "../images/" + bookimgname;
     bookimgFile.mv(uploadpath, (err) => {
-        if (err) { console.log("File upload failed", bookimgname, err); }
+        if (err) { console.log("Image upload failed", bookimgname, err); }
         else {
-            console.log("File uploaded", bookimgname);
+            console.log("Image uploaded", bookimgname);
         }
     });
     await Book.create({

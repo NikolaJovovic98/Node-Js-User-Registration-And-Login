@@ -16,9 +16,13 @@ router.get('/', (req,res)=>{
 //ide na next() tj na (req,res)->{...} i tu radi svoje ako nije pomocu ovoga checkAuth..
 //koji ima svoj req,res salje poruku fles i redirektuje na login stranicu 
 router.get('/dashboard',checkAuthentication, (req,res)=>{
-    res.render('dashboard.hbs',{
-        user:req.user.name,
-    });
+    if(req.user.role===1){
+        res.redirect('/users/admin');
+    }else{
+        res.render('dashboard.hbs',{
+            user:req.user.name,
+        });
+    }
 });
 
 module.exports = router; 
