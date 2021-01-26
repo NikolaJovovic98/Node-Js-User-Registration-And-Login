@@ -160,6 +160,22 @@ router.get("/admin", checkAuthentication, adminPermission, async (req, res) => {
     });
 });
 
+//Kad admin izabere da obrise odredjenog basic korisnika dugme DELETE u admin paneli od korisnika
+//ga dovodi na router.post("/delete/:userId") dje je :userId id od user-a kojeg smo odlucili da obrisemo
+//stavljamo asinhronu funkciju jer zeleimo da koristimo await tj promise
+//prvo sto radimo jeste u const user stavljamo user-a kojeg smo odabrali da obrisemo jer nam je to potrebno
+//da bi obrisali sve knjige koje je taj user postavio to brisanje knjiga radimo kroz await Book.deleteMany
+//ta mongoose funkcija brise sve Book kojima se id poklapa sa array user.book tj sa ajdijevima korsinkovih knjiga
+//sljedeca stvar jeste da u userBooksObject smjestimo sve korisnikove knjige tu dobijamo objekte knjiga i userov objekat
+//nama treba njihov key pod imenom img: koji je u stvari path do knjige ../images/ime.jpg
+//nakon toga u userBooks mapiramo userBooksObject.book (da bi pristupili knjigama jer nam ne treba user object)
+//mapiramo pojedinacno elemente i uz svaki dodajemo glavnu putanju + path book.img (micemo ../ pomocu substring i lastindexOf)
+//i dobijamo niz full-path-ova do odredjene slike 
+//Sto se tice brisanja usera to je jednostavna funkcija ona i ova deleteMany books su mogle da idu zajedno 
+//ali posto nama treba asinhrono brisanje svih slika iz foldera images (slika koje su povezane sa knjigama koje brisemo)
+//mi pravimo funkciju rekurzivnu koja ce brisati jedan po jedan element iz niza userBooks sve dok ne naidje na undefiend tj
+//dok ne zavrsi kad se to desi proslijedili smo callback funkciju koja poziva brisanje user-a i svih knjiga i koja redirektuje na 
+//admin panel uz success_msg (flash poruka)
 router.post("/delete/:userId", async (req, res) => {
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
@@ -175,6 +191,7 @@ router.post("/delete/:userId", async (req, res) => {
         res.redirect("/users/admin");
     });
 });
+
 
 function deleteImages(images, callback) {
     var image = images.pop();

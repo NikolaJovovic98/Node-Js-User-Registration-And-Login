@@ -59,9 +59,19 @@ router.post("/update/:bookName", async (req, res) => {
 });
 
 //Delete Obrisi knjigu
+//Nakon sto logovani korisnik udje da pregleda odredjenu knjigu a ta knjiga je dodata od strane njega
+//on ima mogucnost da je obrise nakon sto je obrise radi se sljedece:
+//const book nam treba da bi iz te knjige koju brisemo izvadili key img koji sadrzi path
+//tj putanju do slike knjige koja se nalazi u folderu images u imgName rezemo samo ime fajla npr slika.jpg bez ../images
+//jer to imamo u uploadsFolder to sve spajamo u fullPath i to koristimo u fs.unlikn da bi obrisali sliku 
+//brisanje Book-a se vrsi pomocu findOneAndDelete a brisanje knjige iz User-ovog niza knjiga pod nazivom book vrsimo tako sto
+//nadjemo korisnika koji je postavio knjigu i pomocu $pull-a brisemo onu knjigu koja se poklapa sa id-jem knjige koju brisemo 
 router.post("/delete/:bookName",checkAuthentication, async (req, res) => {
     const book = await Book.findOne({name:req.params.bookName});
     await Book.findOneAndDelete({ name: req.params.bookName });
+    await User.findOneAndUpdate({_id:book.user},{
+        $pull : {book:book._id}
+    });
     const imgName = book.img.substring(book.img.lastIndexOf("/") + 1);
     const fullPath = uploadsFolder+imgName;
     fs.unlink(fullPath, (err)=>{

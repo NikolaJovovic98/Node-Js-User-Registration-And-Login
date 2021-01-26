@@ -233,9 +233,8 @@ hr{
   padding: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap:wrap;
-  
 
 }
 
@@ -254,6 +253,20 @@ hr{
 .admin-one-user-div:hover{
  background-color: rgb(185, 195, 240);
 
+}
+
+#admin-logout{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#admin-logout form button{
+  border-radius: 7px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background-color: dimgray;
+  color: white;
 }
 
 .admin-one-user-info{
