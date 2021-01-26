@@ -8,6 +8,9 @@ const { checkAuthentication } = require("../config/auth");
 const { userPermission } = require("../config/userAuth");
 const { adminPermission } = require("../config/authAdmin");
 const uploadsFolder = require("../app");
+const fs = require("fs");
+var async = require('async');
+
 //All Users
 router.get('/', async (req, res) => {
     const allUsers = await User.find({ role: 0 }).sort({ createdAt: -1 });
@@ -150,60 +153,40 @@ router.post("/logout", (req, res) => {
 
 router.get("/admin", checkAuthentication, adminPermission, async (req, res) => {
     const users = await User.find({ role: 0 }).sort({ createdAt: -1 });
+    const numberOfUsers = await User.countDocuments({ role: 0 });
     res.render("adminPanel.hbs", {
-        users: users
+        users: users,
+        numberOfUsers: numberOfUsers
     });
 });
 
 router.post("/delete/:userId", async (req, res) => {
-    //Obrisi Korisnika
-    //Obrisi Sve Njegove Knjige
-    //Obrisi Sve Slike Knjiga Iz Foldera Images
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
-                                      .populate('book')
-                                      .exec();
-    const userBooksArray = userBooksObject.book;
-    const userBooks = [];
-    userBooksArray.forEach(book => {
-        userBooks.push(uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1));
+        .populate('book')
+        .exec();
+    const userBooks = userBooksObject.book.map((book) => {
+        return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
-    res.send(userBooks);
+    deleteImages(userBooks,async () => {
+        await User.findOneAndDelete({ _id: req.params.userId });
+        await Book.deleteMany({ _id: { $in: user.book } });
+        req.flash("success_msg", "User and his books successfully deleted!");
+        res.redirect("/users/admin");
+    });
 });
 
-/* Brisanje korisnika iz baze
-const user = await User.findOneAndDelete({_id:req.params.userId});
-*/
-
-/* Dodavanje full path-a do slike 
-const imgName = book.img.substring(book.img.lastIndexOf("/") + 1);
-const fullPath = uploadsFolder+imgName;
-*/
-
-/*Brisanje svih knjiga od korisnika 
-await Book.deleteMany({ _id: { $in: array } }) [array = user.book];
-*/
-
-/*Brisanje svih slika odjednom
-
-function imgDeleter(array) {
-  return Promise.all(
-    array.map(
-      imgPath =>
-        new Promise((res, rej) => {
-          try {
-            fs.unlink(imgPath, err => {
-              if (err) throw err;
-              console.log(`${imgPath}.csv was deleted`);
-            });
-            } catch (err) {
-            console.error(err);
-            rej(err);
-          }
-        })
-    )
-  );
+function deleteImages(images, callback) {
+    var image = images.pop();
+    if (image == undefined) {
+        callback();
+    } else {
+        fs.unlink(image, err => {
+            if (err) throw err;
+            console.log(`${image}.csv was deleted`);
+        });
+        deleteImages(images, callback);
+    }
 }
-*/
 
 module.exports = router;

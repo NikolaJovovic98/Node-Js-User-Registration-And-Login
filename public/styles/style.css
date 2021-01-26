@@ -170,7 +170,12 @@ hr{
 #big-user-div{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#big-user-small-div{
+  width: 30%;
 }
 
 #user-div:hover{
