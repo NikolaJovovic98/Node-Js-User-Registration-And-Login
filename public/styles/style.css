@@ -159,7 +159,7 @@ hr{
 #user-div{
   border: 3px solid darkslategray;
   background-color:rgba(255, 127, 80, 0.336);
-  width: 100%;
+  width: 70%;
   margin-bottom: 10px;
   margin: auto;
   text-align: center;
@@ -170,7 +170,7 @@ hr{
 #big-user-div{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
@@ -290,4 +290,30 @@ hr{
   color: white;
   font-size: 16px;
   margin-top: 10px;
+}
+
+.quant-up{
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  padding: 10px;
+  background-color: rgba(87, 194, 55, 0.74);
+}
+
+.quant-down{
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  padding: 10px;
+  background-color: rgba(255, 16, 16, 0.74);
+}
+
+#up-down-quant {
+  display: flex;
+  flex-direction: row;
+
+}
+
+#up-down-quant div{
+  margin-right: 5px;
 }

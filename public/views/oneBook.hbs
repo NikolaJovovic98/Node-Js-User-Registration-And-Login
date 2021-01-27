@@ -2,10 +2,14 @@
 {{> nav}}
 
 {{#if success_msg}}
-<h3 style="color: green;">{{success_msg}}</h3>
+<h3 style="color: green;text-align: center;">{{success_msg}}</h3>
 {{/if}}
 
 <h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{bookName}}</h1>
+
+{{#if error_msg}}
+<h3 style="color: red;text-align: center;">{{error_msg}}</h3>
+{{/if}}
 
 <div id="one-book">
 
@@ -18,14 +22,27 @@
     <div id="one-book-info-img">
         <div id="one-book-info">
             <p>Price: <strong>{{bookPrice}}&euro;</strong></p>
+            <hr>
             <p>Quantity: <strong>{{bookQuant}}</strong></p>
-            <p>Number of pages: <strong>{{bookPages}}</strong> <i class="fa fa-columns" aria-hidden="true"></i></p>
+            {{#if canEdit}}
+            <div id="up-down-quant">
+            <div>
+                <form action="/books/inc/{{bookName}}" method="POST"><button class="quant-up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button></form>
+            </div>
+            <div>
+                <form action="/books/dec/{{bookName}}" method="POST"><button class="quant-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></form>
+            </div>
+            </div>
+            {{/if}}
+            <hr>
+            <p>Number of pages: <strong>{{bookPages}}</strong><i class="fa fa-columns" aria-hidden="true"></i></p>
         </div>
     </div>
     <hr>
     <div id="one-book-user">
         <p>Book added by {{#if canEdit}}You{{/if}}: <a href="/users/show/{{user}}"><strong>{{user}} <i class="fa fa-user"
                         aria-hidden="true"></i></strong></a></p>
+                        <hr>
         {{#if canEdit}}
         <a href="/books/update/{{bookName}}"><button class="edit-book"><strong>Edit Book Info</strong></button></a>
         <form action="/books/delete/{{bookName}}" method="POST" class="delete-book">

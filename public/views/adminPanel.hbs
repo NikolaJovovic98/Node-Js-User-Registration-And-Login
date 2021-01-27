@@ -12,13 +12,14 @@
 <h3 style="color: green;text-align: center;">{{success_msg}}</h3>
 {{/if}}
 <div id="admin-user-list">
-
+ 
     {{#if users}}
     {{#each users}}
     <div class="admin-one-user-div">
         <div class="admin-one-user-info">
             <p style="font-size: 18px;"><strong>{{name}}</strong></p>
             <p>{{email}}</p>
+            <p>Number of books: <strong>{{book.length}}</strong></p>
             <p>{{_id}}</p>
         </div>
         <hr>

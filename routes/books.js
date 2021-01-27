@@ -6,6 +6,7 @@ const uploadsFolder = require("../app");
 const User = require('../models/User');
 const { bookPermission } = require("../config/bookAuth");
 const fs = require("fs");
+const { checkQuantity } = require("../config/bookQuantityCheck");
 
 //za brisanje slike fs.unlink(path, callback) var fs = require('fs');
 
@@ -119,6 +120,22 @@ router.post("/add", async (req, res) => {
     );
     req.flash("success_msg", "Book added");
     res.redirect("/books");
+});
+
+router.post("/inc/:bookName",checkQuantity,async(req,res)=>{
+    await Book.findOneAndUpdate({name:req.params.bookName},{
+        $inc:{quantity:1}
+    });
+    req.flash("success_msg","Quantity incremented by 1");
+    res.redirect(`/books/show/${req.params.bookName}`);
+});
+
+router.post("/dec/:bookName",checkQuantity,async(req,res)=>{
+    await Book.findOneAndUpdate({name:req.params.bookName},{
+        $inc:{quantity:-1}
+    });
+    req.flash("success_msg","Quantity decremented by 1");
+    res.redirect(`/books/show/${req.params.bookName}`);
 });
 
 module.exports = router;

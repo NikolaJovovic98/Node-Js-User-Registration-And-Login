@@ -26,17 +26,3 @@ module.exports = {
 }
 
 
-
-/*
- const userWhoAddedBook = await User.findOne({ _id: book.user });
-                return res.render("oneBook.hbs", {
-                    bookName: book.name,
-                    bookPrice: book.price,
-                    bookQuant: book.quantity,
-                    bookPages: book.pages,
-                    bookDesc: book.description,
-                    bookImg: book.img,
-                    user:userWhoAddedBook.name,
-                    canEdit:true
-                });
-*/

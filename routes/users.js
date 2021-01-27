@@ -29,11 +29,13 @@ router.get("/show/:userName", userPermission, async (req, res) => {
     if (user.role === 1) {
         role = "Admin";
     }
+    const numberOfBooksByUser = books.book.length;
     res.render("oneUser.hbs", {
         userName: user.name,
         userEmail: user.email,
         userRole: role,
-        books: books.book
+        books: books.book,
+        numOfBooks:numberOfBooksByUser
     });
 });
 
@@ -156,7 +158,7 @@ router.get("/admin", checkAuthentication, adminPermission, async (req, res) => {
     const numberOfUsers = await User.countDocuments({ role: 0 });
     res.render("adminPanel.hbs", {
         users: users,
-        numberOfUsers: numberOfUsers
+        numberOfUsers: numberOfUsers,
     });
 });
 
