@@ -4,7 +4,20 @@
 <h3 style="color: green;">{{success_msg}}</h3>
 {{/if}}
 
-<h1 style="margin: 20px;">All Books </h1>
+<h1 style="margin: 20px;text-align: center;">All Books </h1>
+
+<div class="filter-books-price">
+    <h3 style="text-align: center;">Find books by filtering price &euro;</h3>
+   <div>
+    <form action="/books/filter" method="GET">
+        <label for="fromPrice">From:</label>
+        <input type="number" name="fromPrice" min="1" max="10000">
+        <label for="toPrice">To:</label>
+        <input type="number" name="toPrice" min="1" max="10000">
+        <button type="submit" class="edit-user">Filter</button>
+    </form>
+    </div> 
+</div>
 
 {{#if books}}
 {{#each books}}

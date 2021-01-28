@@ -6,14 +6,15 @@
 
 <h1 style="text-align: center;">Welcome {{user}} <br>Add, Delete or Update a book!</h1>
 
+<div id="user-dashboard">
 <a href="/books/add" style="font-size: 23px;margin: 20px;color:rgb(26, 163, 26);"><strong>Click here to add new Book!</strong></a>
 <br>
-<div  style="margin: 40px;">
-<a href="/users/show/{{user}}"><button><strong>Your Profile</strong></button></a>
+<div>
+<a href="/users/show/{{user}}"><button class="edit-user"><strong>Your Profile</strong></button></a>
 </div>
 <form action="/users/logout" method="POST" style="margin-top: 20px;">
-    <button type="submit">Logout</button>
+    <button type="submit" class="logout-button">Logout</button>
 </form>
-
+</div>
 
 {{> footer}}

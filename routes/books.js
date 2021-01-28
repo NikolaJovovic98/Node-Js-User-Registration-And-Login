@@ -138,4 +138,19 @@ router.post("/dec/:bookName",checkQuantity,async(req,res)=>{
     res.redirect(`/books/show/${req.params.bookName}`);
 });
 
+//Prikazi sve knjige u odredjenom rangu cijene koje korisnik postavi
+//Posto trebamo da procitamo iz url-a /books/filter?fromPrice=broj1&toPrice=broj2
+//to se cita pomocu req.query.fromPrice zbog toga moramo koristiti GET metodu
+//samo citamo rezultate iz baze tako da to smijemo
+//u filteredBooks stavljamo sve knjige cija je cijena u rangu ovih iz query
+//to postizemo sa $lt tj less then i $gt tj greater then
+router.get("/filter",async(req,res)=>{
+    const filteredBooks = await Book.find({
+        price:{$gt:req.query.fromPrice,$lt:req.query.toPrice}
+    });
+    res.render("allBooks.hbs",{
+        books:filteredBooks
+    });
+});
+
 module.exports = router;

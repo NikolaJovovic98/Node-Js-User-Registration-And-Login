@@ -317,3 +317,37 @@ hr{
 #up-down-quant div{
   margin-right: 5px;
 }
+
+#user-dashboard {
+  background-color: rgba(255, 166, 0, 0.322);
+  border-radius: 7px;
+  width: 50%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-button{
+  border-radius: 7px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background-color: dimgray;
+  color: white;
+}
+
+.filter-books-price{
+  background-color: rgba(255, 68, 0, 0.336);
+  border-radius: 7px;
+  padding: 10px;
+  margin: auto;
+  width: 30%;
+  margin-bottom: 20px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
