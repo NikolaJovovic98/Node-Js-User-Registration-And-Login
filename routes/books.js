@@ -7,6 +7,8 @@ const User = require('../models/User');
 const { bookPermission } = require("../config/bookAuth");
 const fs = require("fs");
 const { checkQuantity } = require("../config/bookQuantityCheck");
+const mailSender = require("../services/mailer");
+const csvMaker = require("../services/csvMaker");
 
 //za brisanje slike fs.unlink(path, callback) var fs = require('fs');
 
@@ -118,9 +120,36 @@ router.post("/add", async (req, res) => {
         { _id: req.user.id },
         { $push: { book: newBook._id } }
     );
+    const newBookObject = [newBook];
+    await csvMaker(newBookObject);
+    const admins = await User.find({role:1});
+    const adminsMails = admins.map(admin=>{return admin.email});
+    await mailSender(adminsMails,req.user.name,newBook.name);
     req.flash("success_msg", "Book added");
     res.redirect("/books");
 });
+
+/*
+    const newBookObject = {
+        name:newBook.name,
+        description:newBook.description,
+        price:newBook.price,
+        quantity:newBook.quantity,
+        pages:newBook.pages
+    }
+async function makeCsv(bookObject){
+     csvMaker(bookObject);
+}
+  makeCsv(newBookObject)
+    .then(async(result) => {
+        const admins = await User.find({role:1});
+        const adminsMails = admins.map(admin=>{return admin.email});
+        await mailSender(adminsMails,req.user.name,newBook.name);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+*/
 
 router.post("/inc/:bookName",checkQuantity,async(req,res)=>{
     await Book.findOneAndUpdate({name:req.params.bookName},{
@@ -152,5 +181,6 @@ router.get("/filter",async(req,res)=>{
         books:filteredBooks
     });
 });
+
 
 module.exports = router;
