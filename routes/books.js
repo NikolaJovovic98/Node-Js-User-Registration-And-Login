@@ -24,7 +24,6 @@ router.get("/", async (req, res) => {
 router.get("/show/:bookName", bookPermission, async (req, res) => {
     const book = await Book.findOne({ name: req.params.bookName });
     const userWhoAddedBook = await User.findOne({ _id: book.user });
-    const pe = book.possibleEarnings; // 6*3 = 18e
     res.render("oneBook.hbs", {
         bookName: book.name,
         bookPrice: book.price,
@@ -50,15 +49,15 @@ router.get("/update/:bookName", checkAuthentication, async (req, res) => {
 
 //Update knjigu post 
 router.post("/update/:bookName", async (req, res) => {
-    await Book.findOneAndUpdate({name:req.params.bookName},{
-        name:req.body.bookname,
-        description:req.body.bookdesc,
-        price:req.body.bookprice,
-        quantity:req.body.bookquant,
-        pages:req.body.bookpages
+    await Book.findOneAndUpdate({ name: req.params.bookName }, {
+        name: req.body.bookname,
+        description: req.body.bookdesc,
+        price: req.body.bookprice,
+        quantity: req.body.bookquant,
+        pages: req.body.bookpages
     });
-    const redirectBook = await Book.findOne({name:req.body.bookname});
-    req.flash("success_msg","Successful Updated Book Information");
+    const redirectBook = await Book.findOne({ name: req.body.bookname });
+    req.flash("success_msg", "Successful Updated Book Information");
     res.redirect(`/books/show/${redirectBook.name}`);
 });
 
@@ -70,21 +69,21 @@ router.post("/update/:bookName", async (req, res) => {
 //jer to imamo u uploadsFolder to sve spajamo u fullPath i to koristimo u fs.unlikn da bi obrisali sliku 
 //brisanje Book-a se vrsi pomocu findOneAndDelete a brisanje knjige iz User-ovog niza knjiga pod nazivom book vrsimo tako sto
 //nadjemo korisnika koji je postavio knjigu i pomocu $pull-a brisemo onu knjigu koja se poklapa sa id-jem knjige koju brisemo 
-router.post("/delete/:bookName",checkAuthentication, async (req, res) => {
-    const book = await Book.findOne({name:req.params.bookName});
+router.post("/delete/:bookName", checkAuthentication, async (req, res) => {
+    const book = await Book.findOne({ name: req.params.bookName });
     await Book.findOneAndDelete({ name: req.params.bookName });
-    await User.findOneAndUpdate({_id:book.user},{
-        $pull : {book:book._id}
+    await User.findOneAndUpdate({ _id: book.user }, {
+        $pull: { book: book._id }
     });
     const imgName = book.img.substring(book.img.lastIndexOf("/") + 1);
-    const fullPath = uploadsFolder+imgName;
-    fs.unlink(fullPath, (err)=>{
-        if(err){console.log("Error in deleting image: "+err);}
-        else{
+    const fullPath = uploadsFolder + imgName;
+    fs.unlink(fullPath, (err) => {
+        if (err) { console.log("Error in deleting image: " + err); }
+        else {
             console.log("Image successfully deleted.");
         }
     });
-    req.flash("success_msg","Successful deleted book!");
+    req.flash("success_msg", "Successful deleted book!");
     res.redirect(`/users/show/${req.user.name}`);
 });
 
@@ -123,9 +122,9 @@ router.post("/add", async (req, res) => {
     );
     const newBookObject = [newBook];
     await csvMaker(newBookObject);
-    const admins = await User.find({role:1});
-    const adminsMails = admins.map(admin=>{return admin.email});
-    await mailSender(adminsMails,req.user.name,newBook.name);
+    const admins = await User.find({ role: 1 });
+    const adminsMails = admins.map(admin => { return admin.email });
+    await mailSender(adminsMails, req.user.name, newBook.name);
     req.flash("success_msg", "Book added");
     res.redirect("/books");
 });
@@ -152,19 +151,19 @@ async function makeCsv(bookObject){
     });
 */
 
-router.post("/inc/:bookName",checkQuantity,async(req,res)=>{
-    await Book.findOneAndUpdate({name:req.params.bookName},{
-        $inc:{quantity:1}
+router.post("/inc/:bookName", checkQuantity, async (req, res) => {
+    await Book.findOneAndUpdate({ name: req.params.bookName }, {
+        $inc: { quantity: 1 }
     });
-    req.flash("success_msg","Quantity incremented by 1");
+    req.flash("success_msg", "Quantity incremented by 1");
     res.redirect(`/books/show/${req.params.bookName}`);
 });
 
-router.post("/dec/:bookName",checkQuantity,async(req,res)=>{
-    await Book.findOneAndUpdate({name:req.params.bookName},{
-        $inc:{quantity:-1}
+router.post("/dec/:bookName", checkQuantity, async (req, res) => {
+    await Book.findOneAndUpdate({ name: req.params.bookName }, {
+        $inc: { quantity: -1 }
     });
-    req.flash("success_msg","Quantity decremented by 1");
+    req.flash("success_msg", "Quantity decremented by 1");
     res.redirect(`/books/show/${req.params.bookName}`);
 });
 
@@ -174,12 +173,12 @@ router.post("/dec/:bookName",checkQuantity,async(req,res)=>{
 //samo citamo rezultate iz baze tako da to smijemo
 //u filteredBooks stavljamo sve knjige cija je cijena u rangu ovih iz query
 //to postizemo sa $lt tj less then i $gt tj greater then
-router.get("/filter",async(req,res)=>{
+router.get("/filter", async (req, res) => {
     const filteredBooks = await Book.find({
-        price:{$gt:req.query.fromPrice,$lt:req.query.toPrice}
+        price: { $gt: req.query.fromPrice, $lt: req.query.toPrice }
     });
-    res.render("allBooks.hbs",{
-        books:filteredBooks
+    res.render("allBooks.hbs", {
+        books: filteredBooks
     });
 });
 

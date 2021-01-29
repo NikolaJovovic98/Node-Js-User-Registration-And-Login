@@ -12,7 +12,7 @@ require("./config/passport")(passport); //U config/passport.js imamo citavu konf
 const expressFileUpload = require("express-fileupload");
 app.use(expressFileUpload());
 
-const pathToUpload = __dirname+"/public/images/";
+const pathToUpload = __dirname + "/public/images/";
 module.exports = pathToUpload;
 
 //Postavljamo view engine na hbs
@@ -32,7 +32,7 @@ app.use(session({
     secret: "secret",
     resave: true,
     saveUninitialized: true
-})); 
+}));
 
 //Passport Middleware
 app.use(passport.initialize());
@@ -76,7 +76,7 @@ hbs.registerPartials(__dirname + "/public/images");
 
 //Const function to connect do database
 const connect = () => {
-    return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex:true });
+    return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 }
 
 //Database promise connection and connecting to server 

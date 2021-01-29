@@ -23,9 +23,12 @@ router.get('/', async (req, res) => {
 router.get("/show/:userName", userPermission, async (req, res) => {
     const user = await User.findOne({ name: req.params.userName });
     const books = await User.findOne({ name: req.params.userName })
-                            .populate('book')
-                            .exec();
-    const totalPossibleEarnings = await calculateEarnings(books.book);
+        .populate('book')
+        .exec();
+    let totalPossibleEarnings = await calculateEarnings(books.book);
+    if (books.book.length === 0) {
+        totalPossibleEarnings = 0;
+    }
     let role = "Basic User";
     if (user.role === 1) {
         role = "Admin";
@@ -183,8 +186,8 @@ router.get("/admin", checkAuthentication, adminPermission, async (req, res) => {
 router.post("/delete/:userId", async (req, res) => {
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
-        .populate('book')
-        .exec();
+                                      .populate('book')
+                                      .exec();
     const userBooks = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
@@ -195,7 +198,6 @@ router.post("/delete/:userId", async (req, res) => {
         res.redirect("/users/admin");
     });
 });
-
 
 function deleteImages(images, callback) {
     var image = images.pop();
