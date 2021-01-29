@@ -24,6 +24,7 @@ router.get("/", async (req, res) => {
 router.get("/show/:bookName", bookPermission, async (req, res) => {
     const book = await Book.findOne({ name: req.params.bookName });
     const userWhoAddedBook = await User.findOne({ _id: book.user });
+    const pe = book.possibleEarnings; // 6*3 = 18e
     res.render("oneBook.hbs", {
         bookName: book.name,
         bookPrice: book.price,
@@ -31,7 +32,7 @@ router.get("/show/:bookName", bookPermission, async (req, res) => {
         bookPages: book.pages,
         bookDesc: book.description,
         bookImg: book.img,
-        user: userWhoAddedBook.name
+        user: userWhoAddedBook.name,
     });
 });
 
@@ -93,7 +94,7 @@ router.get("/add", checkAuthentication, (req, res) => {
         user: req.user.id
     });
 });
-
+//Dodaj objasnjenje za adding book obavezno za csv,mailer
 router.post("/add", async (req, res) => {
     const { bookname, bookdesc, bookprice, bookquant, bookpages, bookuserID } = req.body;
     const bookimgFile = req.files.bookimg;

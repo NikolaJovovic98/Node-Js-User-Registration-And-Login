@@ -1,7 +1,7 @@
 const express = require('express'); //express framework
 const router = require("express").Router(); //izvuci Router tj mogucnost rutiranja iz expressa
 const User = require("../models/User"); //User model 
-const Book = require("../models/Book"); //User model 
+const Book = require("../models/Book"); //Book model 
 const bcrypt = require("bcrypt");//za hasovanje pasvorda
 const passport = require("passport");
 const { checkAuthentication } = require("../config/auth");
@@ -9,7 +9,7 @@ const { userPermission } = require("../config/userAuth");
 const { adminPermission } = require("../config/authAdmin");
 const uploadsFolder = require("../app");
 const fs = require("fs");
-var async = require('async');
+const calculateEarnings = require("../services/calculateEarnings");
 
 //All Users
 router.get('/', async (req, res) => {
@@ -23,8 +23,9 @@ router.get('/', async (req, res) => {
 router.get("/show/:userName", userPermission, async (req, res) => {
     const user = await User.findOne({ name: req.params.userName });
     const books = await User.findOne({ name: req.params.userName })
-        .populate('book')
-        .exec();
+                            .populate('book')
+                            .exec();
+    const totalPossibleEarnings = await calculateEarnings(books.book);
     let role = "Basic User";
     if (user.role === 1) {
         role = "Admin";
@@ -35,7 +36,8 @@ router.get("/show/:userName", userPermission, async (req, res) => {
         userEmail: user.email,
         userRole: role,
         books: books.book,
-        numOfBooks:numberOfBooksByUser
+        numOfBooks: numberOfBooksByUser,
+        possibleEarnings: totalPossibleEarnings
     });
 });
 
@@ -186,7 +188,7 @@ router.post("/delete/:userId", async (req, res) => {
     const userBooks = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
-    deleteImages(userBooks,async () => {
+    deleteImages(userBooks, async () => {
         await User.findOneAndDelete({ _id: req.params.userId });
         await Book.deleteMany({ _id: { $in: user.book } });
         req.flash("success_msg", "User and his books successfully deleted!");

@@ -47,6 +47,11 @@ const bookSchema = new Schema({
    }
 },{timestamps:true});
 
+bookSchema.virtual("possibleEarnings")
+          .get(function () { 
+                return this.price*this.quantity;
+            });
+
 const Book = mongoose.model("Book",bookSchema);
 
 module.exports = Book;
