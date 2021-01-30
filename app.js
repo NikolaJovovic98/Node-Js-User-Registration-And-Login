@@ -7,6 +7,7 @@ const flash = require("connect-flash"); //Fles poruke
 const passport = require("passport"); //Passport za autentikaciju 
 const mongoose = require("mongoose"); // Baza podataka
 const bodyParser = require("body-parser"); //Uzimanje podataka sa forme 
+const connection_uri = process.env.MONGODB_URI || "mongodb://localhost:27017/UserRegisterLogin";
 require("./config/passport")(passport); //U config/passport.js imamo citavu konfiguraciju za passport 
 //i predajemo passport varijablu koju smo gore napravili da bi radilo
 const expressFileUpload = require("express-fileupload");
@@ -76,7 +77,7 @@ hbs.registerPartials(__dirname + "/public/images");
 
 //Const function to connect do database
 const connect = () => {
-    return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+    return mongoose.connect(connection_uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 }
 
 //Database promise connection and connecting to server 
