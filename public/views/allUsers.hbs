@@ -3,6 +3,10 @@
 
 <h1 style="margin: 20px;text-align: center;">All Users </h1>
 
+{{#if noUsers}}
+<h3 style="color: green;text-align: center;">{{noUsers}}</h3>
+{{/if}}
+
 <div id="big-user-div">
 {{#if users}}
 {{#each users}}

@@ -14,9 +14,15 @@ const calculateEarnings = require("../services/calculateEarnings");
 //All Users
 router.get('/', async (req, res) => {
     const allUsers = await User.find({ role: 0 }).sort({ createdAt: -1 });
-    res.render("allUsers.hbs", {
-        users: allUsers
-    });
+    if(allUsers.length===0){
+        res.render("allUsers.hbs", {
+            noUsers: "No users yet"
+        });
+    }else{
+        res.render("allUsers.hbs", {
+            users: allUsers
+        });
+    }
 });
 
 //Show One User

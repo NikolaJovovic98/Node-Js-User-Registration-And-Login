@@ -15,9 +15,15 @@ const csvMaker = require("../services/csvMaker");
 //Prikazi sve knjige
 router.get("/", async (req, res) => {
     const allBooks = await Book.find().sort({ createdAt: -1 });
-    res.render("allBooks.hbs", {
-        books: allBooks
-    });
+    if(allBooks.length===0){
+        res.render("allBooks.hbs", {
+            noBooks: "No books yet"
+        });
+    }else{
+        res.render("allBooks.hbs", {
+            books: allBooks
+        });
+    }
 });
 
 //Prikazi jednu knjigu

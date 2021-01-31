@@ -4,6 +4,10 @@
 
 <h1 style="margin: 20px;text-align: center;">All Books </h1>
 
+{{#if noBooks}}
+<h3 style="color: green;text-align: center;">{{noBooks}}</h3>
+{{/if}}
+
 {{#if success_msg}}
 <h3 style="color: green;text-align: center;">{{success_msg}}</h3>
 {{/if}}
