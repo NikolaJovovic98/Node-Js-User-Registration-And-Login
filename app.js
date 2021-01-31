@@ -25,7 +25,8 @@ app.set("view engine", "hbs");
 app.use(express.static('public'));
 app.use(express.static('public/images'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+app.use(express.json())
 app.set('views', "public/views");
 
 //Express Session
