@@ -84,8 +84,8 @@ const connect = () => {
 connect()
     .then(async connection => {
         console.log("Successfully connected to database");
-        app.listen(port, () => { console.log("Server is running properly on port " + port + "."); })
+        // app.listen(port, () => { console.log("Server is running properly on port " + port + "."); })
     }).catch(err => {
         console.log("Error Ocurred in connecting to database: " + err);
     });
-
+    app.listen(port, () => { console.log("Server is running properly on port " + port + "."); })
