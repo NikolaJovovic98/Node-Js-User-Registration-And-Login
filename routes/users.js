@@ -10,6 +10,8 @@ const { adminPermission } = require("../config/authAdmin");
 const uploadsFolder = require("../app");
 const fs = require("fs");
 const calculateEarnings = require("../services/calculateEarnings");
+const mailSender = require("../services/mailer");
+const csvMaker = require("../services/csvMaker");
 
 //All Users
 router.get('/', async (req, res) => {
@@ -189,7 +191,7 @@ router.get("/admin", checkAuthentication, adminPermission, async (req, res) => {
 //mi pravimo funkciju rekurzivnu koja ce brisati jedan po jedan element iz niza userBooks sve dok ne naidje na undefiend tj
 //dok ne zavrsi kad se to desi proslijedili smo callback funkciju koja poziva brisanje user-a i svih knjiga i koja redirektuje na 
 //admin panel uz success_msg (flash poruka)
-router.post("/delete/:userId", async (req, res) => {
+router.post("/delete/:userId",checkAuthentication,adminPermission, async (req, res) => {
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
                                       .populate('book')
@@ -217,5 +219,14 @@ function deleteImages(images, callback) {
         deleteImages(images, callback);
     }
 }
+
+router.post("/admincsv",checkAuthentication,adminPermission,async(req,res)=>{
+    const allBooks = await Book.find({});
+    const currentAdminEmail = req.user.email;
+    await csvMaker(allBooks);
+    await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
+    req.flash("success_msg", "Csv sent to "+currentAdminEmail);
+    res.redirect("/users/admin");
+});
 
 module.exports = router;

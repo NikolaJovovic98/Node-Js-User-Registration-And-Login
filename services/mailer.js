@@ -1,7 +1,6 @@
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-//fileNameArg dodaj ovo u argumente
 
 async function mailSender(sendMailTo,userWhoAddedBook,bookName) {
     return new Promise((resolve, reject) => {

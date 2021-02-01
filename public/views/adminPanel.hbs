@@ -3,7 +3,12 @@
 
 <h1 style="text-align: center;">ADMIN PANEL</h1>
 <h3 style="text-align: center;font-style: italic;">Number of basic users: {{numberOfUsers}}</h3>
-<div id="admin-logout">
+<div id="admin-logout">    
+<form action="/users/admincsv" method="POST" style="margin-top: 20px;">
+    <button type="submit" style="background-color: rgb(236, 84, 29);">Get All Book Csv On Mail </button>
+</form>
+</div>
+<div id="admin-logout">    
 <form action="/users/logout" method="POST" style="margin-top: 20px;">
     <button type="submit">Logout</button>
 </form>

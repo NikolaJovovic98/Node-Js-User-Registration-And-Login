@@ -17,12 +17,14 @@ module.exports = {
                 if (user.role === 1) {
                     role = "Admin";
                 }
+                const numberOfBooksByUser = books.book.length;
                 return res.render("oneUser.hbs", {
                     userName: user.name,
                     userEmail: user.email,
                     userRole: role,
                     books: books.book,
                     possibleEarnings: totalPossibleEarnings,
+                    numOfBooks: numberOfBooksByUser,
                     canEdit:true
                 });
             }

@@ -9,9 +9,12 @@ const {createObjectCsvWriter} = require('csv-writer');
 //da upise u csv fajl podatke ako samo proslijedimo objekat a ne niz objekata!
 
 module.exports = (async(bookObject) => {
-
+    let pathToCsv = __dirname + `/csv/${bookObject[0].name}.csv`;
+    if(bookObject.length>1){
+        pathToCsv = __dirname + `/csv/AllBooks.csv`
+    }
     const csvWriter = createObjectCsvWriter({
-        path: __dirname + `/csv/${bookObject[0].name}.csv`,
+        path: pathToCsv,
         header: [
             { id: 'name', title: 'NAME' },
             { id: 'description', title: 'DESCRIPTION' },
