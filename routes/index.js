@@ -6,7 +6,7 @@ const {checkAuthentication} = require("../config/auth");//Stavljamo {} oko imena
 //Welcome page
 //Renderovanje pocetne stranice
 router.get('', (req,res)=>{
-    res.render('home.hbs');
+    res.render('home.hbs')
 });
 
 //Dashboard page

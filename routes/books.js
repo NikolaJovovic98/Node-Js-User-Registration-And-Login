@@ -19,9 +19,14 @@ router.get("/", async (req, res) => {
         res.render("allBooks.hbs", {
             noBooks: "No books yet"
         });
+    }if(req.user){
+        res.render("allBooks.hbs", {
+            books: allBooks,
+            loggedUser:req.user._id
+        });
     }else{
         res.render("allBooks.hbs", {
-            books: allBooks
+            books: allBooks,
         });
     }
 });
@@ -134,28 +139,6 @@ router.post("/add", async (req, res) => {
     req.flash("success_msg", "Book added");
     res.redirect("/books");
 });
-
-/*
-    const newBookObject = {
-        name:newBook.name,
-        description:newBook.description,
-        price:newBook.price,
-        quantity:newBook.quantity,
-        pages:newBook.pages
-    }
-async function makeCsv(bookObject){
-     csvMaker(bookObject);
-}
-  makeCsv(newBookObject)
-    .then(async(result) => {
-        const admins = await User.find({role:1});
-        const adminsMails = admins.map(admin=>{return admin.email});
-        await mailSender(adminsMails,req.user.name,newBook.name);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-*/
 
 router.post("/inc/:bookName", checkQuantity, async (req, res) => {
     await Book.findOneAndUpdate({ name: req.params.bookName }, {

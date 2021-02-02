@@ -37,8 +37,8 @@
                 <a href="/users/show/{{name}}"><button class="show-user-admin">User Profile</button></a>
             </div>
             <div>
-                <form action="#" method="" class="delete-book">
-                    <button type="" style="background-color: rgb(255, 113, 61);">Make Admin</button>
+                <form action="/users/make-admin/{{_id}}" method="POST" class="delete-book">
+                    <button type="submit" style="background-color: rgb(255, 113, 61);">Make Admin</button>
                 </form>
             </div>
         </div>

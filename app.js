@@ -73,6 +73,10 @@ app.use("/books", require("./routes/books"));
 
 hbs.registerPartials(__dirname + "/public/views/components");
 hbs.registerPartials(__dirname + "/public/images");
+hbs.registerHelper("isEqual",function (par1,par2,options){
+    if (par1===par2) { return options.fn(this); }
+    return options.inverse(this);
+});
 
 //Const function to connect do database
 const connect = () => {

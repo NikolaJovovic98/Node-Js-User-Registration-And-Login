@@ -16,11 +16,11 @@ const csvMaker = require("../services/csvMaker");
 //All Users
 router.get('/', async (req, res) => {
     const allUsers = await User.find({ role: 0 }).sort({ createdAt: -1 });
-    if(allUsers.length===0){
+    if (allUsers.length === 0) {
         res.render("allUsers.hbs", {
             noUsers: "No users yet"
         });
-    }else{
+    } else {
         res.render("allUsers.hbs", {
             users: allUsers
         });
@@ -125,8 +125,9 @@ router.post('/register', async (req, res) => {
             errors
         });
     } else {
-        const user = await User.findOne({ email: email });
-        if (user) {
+        const userEmail = await User.findOne({ email: email });
+        const userName = await User.findOne({ name: name });
+        if (userName || userEmail) {
             errors.push({ msg: "User already exists in database." });
             res.render("register.hbs", {
                 errors
@@ -191,11 +192,11 @@ router.get("/admin", checkAuthentication, adminPermission, async (req, res) => {
 //mi pravimo funkciju rekurzivnu koja ce brisati jedan po jedan element iz niza userBooks sve dok ne naidje na undefiend tj
 //dok ne zavrsi kad se to desi proslijedili smo callback funkciju koja poziva brisanje user-a i svih knjiga i koja redirektuje na 
 //admin panel uz success_msg (flash poruka)
-router.post("/delete/:userId",checkAuthentication,adminPermission, async (req, res) => {
+router.post("/delete/:userId", checkAuthentication, adminPermission, async (req, res) => {
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
-                                      .populate('book')
-                                      .exec();
+        .populate('book')
+        .exec();
     const userBooks = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
@@ -220,13 +221,31 @@ function deleteImages(images, callback) {
     }
 }
 
-router.post("/admincsv",checkAuthentication,adminPermission,async(req,res)=>{
+router.post("/admincsv", checkAuthentication, adminPermission, async (req, res) => {
     const allBooks = await Book.find({});
     const currentAdminEmail = req.user.email;
     await csvMaker(allBooks);
     await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
-    req.flash("success_msg", "Csv sent to "+currentAdminEmail);
+    req.flash("success_msg", "Csv sent to " + currentAdminEmail);
     res.redirect("/users/admin");
+});
+
+router.post("/make-admin/:userId", checkAuthentication, adminPermission, async (req, res) => {
+    const user = await User.findOne({ _id: req.params.userId });
+    const userBooksObject = await User.findOne({ _id: req.params.userId })
+                                .populate('book')
+                                .exec();
+    const userBooks = userBooksObject.book.map((book) => {
+        return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
+    });
+    deleteImages(userBooks, async () => {
+        await User.findByIdAndUpdate({ _id: req.params.userId },{
+            role:1
+        });
+        await Book.deleteMany({ _id: { $in: user.book } });
+        req.flash("success_msg",`User ${user.name} is now admin.`);
+        res.redirect("/users/admin");
+    });
 });
 
 module.exports = router;
