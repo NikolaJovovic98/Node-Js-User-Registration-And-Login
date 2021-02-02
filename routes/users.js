@@ -222,12 +222,18 @@ function deleteImages(images, callback) {
 }
 
 router.post("/admincsv", checkAuthentication, adminPermission, async (req, res) => {
-    const allBooks = await Book.find({});
-    const currentAdminEmail = req.user.email;
-    await csvMaker(allBooks);
-    await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
-    req.flash("success_msg", "Csv sent to " + currentAdminEmail);
-    res.redirect("/users/admin");
+    try {
+        const allBooks = await Book.find({});
+        const currentAdminEmail = req.user.email;
+        await csvMaker(allBooks);
+        await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
+        req.flash("success_msg", "Csv sent to " + currentAdminEmail);
+        res.redirect("/users/admin");
+
+    } catch (error) {
+        req.flash("error_msg", "No books to parse.");
+        res.redirect("/users/admin");
+    }
 });
 
 router.post("/make-admin/:userId", checkAuthentication, adminPermission, async (req, res) => {
