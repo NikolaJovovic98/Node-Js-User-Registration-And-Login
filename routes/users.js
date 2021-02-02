@@ -240,7 +240,8 @@ router.post("/make-admin/:userId", checkAuthentication, adminPermission, async (
     });
     deleteImages(userBooks, async () => {
         await User.findByIdAndUpdate({ _id: req.params.userId },{
-            role:1
+            role:1,
+            book:[]
         });
         await Book.deleteMany({ _id: { $in: user.book } });
         req.flash("success_msg",`User ${user.name} is now admin.`);
