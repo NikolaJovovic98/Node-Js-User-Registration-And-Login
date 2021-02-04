@@ -198,12 +198,15 @@ router.post("/delete/:userId", checkAuthentication, adminPermission, async (req,
     const userBooksObject = await User.findOne({ _id: req.params.userId })
         .populate('book')
         .exec();
+    const bookNames = userBooksObject.book.map((book)=>{
+        return book.name;
+    }); 
     const userBooksImages = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
     deleteImages(userBooksImages, async () => {
         await Comment.deleteMany({user:user.name});
-        // await Comment.deleteMany({book:{$in:userBooksObject.book.name}});
+        await Comment.deleteMany({book:{$in:bookNames}});
         await User.findOneAndDelete({ _id: req.params.userId });
         await Book.deleteMany({ _id: { $in: user.book } });
         req.flash("success_msg", "User and his books successfully deleted!");
