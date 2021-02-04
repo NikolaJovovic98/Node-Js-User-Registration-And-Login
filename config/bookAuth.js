@@ -1,5 +1,6 @@
 const Book = require("../models/Book");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 
 module.exports = {
     bookPermission: async (req, res, next) => {
@@ -8,16 +9,23 @@ module.exports = {
             const bookUserId = JSON.stringify(book.user);
             const loggedUserId = JSON.stringify(req.user.id);
             const userWhoAddedBook = await User.findOne({ _id: book.user });
+            const comments = await Comment.find({book:book.name}).sort({ createdAt: -1 });
             if (bookUserId === loggedUserId) {
                 return res.render("oneBook.hbs", {
-                    bookName: book.name,
-                    bookPrice: book.price,
-                    bookQuant: book.quantity,
-                    bookPages: book.pages,
-                    bookDesc: book.description,
-                    bookImg: book.img,
-                    user: userWhoAddedBook.name,
-                    canEdit: true
+                    book:book,
+                    user: userWhoAddedBook,
+                    comments:comments,
+                    canEdit: true,
+                    canComment: true,
+                    loggedUser:req.user.name
+                });
+            }else{
+                return res.render("oneBook.hbs", {
+                    book:book,
+                    user: userWhoAddedBook,
+                    comments:comments,
+                    canComment: true,
+                    loggedUser:req.user.name
                 });
             }
         }

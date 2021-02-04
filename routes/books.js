@@ -1,6 +1,7 @@
 const express = require('express'); //express framework
 const router = require("express").Router(); //izvuci Router tj mogucnost rutiranja iz expressa
 const Book = require("../models/Book"); //User model 
+const Comment = require("../models/Comment");
 const { checkAuthentication } = require("../config/auth");
 const uploadsFolder = require("../app");
 const User = require('../models/User');
@@ -35,14 +36,13 @@ router.get("/", async (req, res) => {
 router.get("/show/:bookName", bookPermission, async (req, res) => {
     const book = await Book.findOne({ name: req.params.bookName });
     const userWhoAddedBook = await User.findOne({ _id: book.user });
+    const comments = await Comment.find({book:book.name}).sort({ createdAt: -1 });
+    const users = await User.find({role:0});
     res.render("oneBook.hbs", {
-        bookName: book.name,
-        bookPrice: book.price,
-        bookQuant: book.quantity,
-        bookPages: book.pages,
-        bookDesc: book.description,
-        bookImg: book.img,
-        user: userWhoAddedBook.name,
+        book:book,
+        user: userWhoAddedBook,
+        comments:comments,
+        users:users
     });
 });
 
@@ -171,5 +171,22 @@ router.get("/filter", async (req, res) => {
     });
 });
 
+router.post("/comment/add",checkAuthentication,async(req,res)=>{
+    await Comment.create({
+        body:req.body.commentBody,
+        user:req.body.commentUser,
+        book:req.body.commentBook
+    });
+    req.flash("success_msg","Comment added");
+    res.redirect(`/books/show/${req.body.commentBook}`);
+});
+
+router.post("/comment/delete/:commentId",checkAuthentication,async(req,res)=>{
+     const comment = await Comment.findOne({_id:req.params.commentId});
+     await Comment.findOneAndDelete({_id:req.params.commentId});
+     const redirectBook = await Book.findOne({name:comment.book});
+     req.flash("success_msg","Comment Deleted");
+     res.redirect(`/books/show/${redirectBook.name}`);
+});
 
 module.exports = router;

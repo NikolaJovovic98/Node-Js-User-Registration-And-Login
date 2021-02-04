@@ -1,7 +1,7 @@
 {{> header}}
 {{> nav}}
 
-<h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{bookName}}</h1>
+<h1 style="margin: 20px;text-align: center;background-color: antiquewhite;border-radius: 7px;">{{ book.name}}</h1>
 
 {{#if success_msg}}
 <h3 style="color: green;text-align: center;">{{success_msg}}</h3>
@@ -15,37 +15,39 @@
 
     <div id="one-book-desc">
         <p style="text-align: center;">Short book description: </p><strong>
-            <p style="font-style: italic;">{{bookDesc}}</p>
+            <p style="font-style: italic;">{{book.description}}</p>
         </strong>
     </div>
     <hr>
     <div id="one-book-info-img">
         <div id="one-book-info">
-            <p>Price: <strong>{{bookPrice}}&euro;</strong></p>
+            <p>Price: <strong>{{book.price}}&euro;</strong></p>
             <hr>
-            <p>Quantity: <strong>{{bookQuant}}</strong></p>
+            <p>Quantity: <strong>{{book.quantity}}</strong></p>
             {{#if canEdit}}
             <div id="up-down-quant">
-            <div>
-                <form action="/books/inc/{{bookName}}" method="POST"><button class="quant-up"><i class="fa fa-arrow-up" aria-hidden="true"></i></button></form>
-            </div>
-            <div>
-                <form action="/books/dec/{{bookName}}" method="POST"><button class="quant-down"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></form>
-            </div>
+                <div>
+                    <form action="/books/inc/{{book.name}}" method="POST"><button class="quant-up"><i
+                                class="fa fa-arrow-up" aria-hidden="true"></i></button></form>
+                </div>
+                <div>
+                    <form action="/books/dec/{{book.name}}" method="POST"><button class="quant-down"><i
+                                class="fa fa-arrow-down" aria-hidden="true"></i></button></form>
+                </div>
             </div>
             {{/if}}
             <hr>
-            <p>Number of pages: <strong>{{bookPages}}</strong><i class="fa fa-columns" aria-hidden="true"></i></p>
+            <p>Number of pages: <strong>{{book.pages}}</strong><i class="fa fa-columns" aria-hidden="true"></i></p>
         </div>
     </div>
     <hr>
     <div id="one-book-user">
-        <p>Book added by {{#if canEdit}}You{{/if}}: <a href="/users/show/{{user}}"><strong>{{user}} <i class="fa fa-user"
-                        aria-hidden="true"></i></strong></a></p>
-                        <hr>
+        <p>Book added by {{#if canEdit}}You{{/if}}: <a href="/users/show/{{user.name}}"><strong>{{user.name}} <i
+                        class="fa fa-user" aria-hidden="true"></i></strong></a></p>
+        <hr>
         {{#if canEdit}}
-        <a href="/books/update/{{bookName}}"><button class="edit-book"><strong>Edit Book Info</strong></button></a>
-        <form action="/books/delete/{{bookName}}" method="POST" class="delete-book">
+        <a href="/books/update/{{book.name}}"><button class="edit-book"><strong>Edit Book Info</strong></button></a>
+        <form action="/books/delete/{{book.name}}" method="POST" class="delete-book">
             <button type="submit">Delete</button>
         </form>
         {{/if}}
@@ -53,5 +55,56 @@
 
 </div>
 
+<div id="comment-section">
+    {{#if canComment}}
+    <div id="can-comment">
+        <h3>Leave comment!</h3>
+        <form action="/books/comment/add" method="POST">
+            <textarea name="commentBody" cols="30" rows="5" required></textarea>
+            <input type="text" name="commentUser" value="{{loggedUser}}" required hidden>
+            <input type="text" name="commentBook" value="{{book.name}}" required hidden>
+            <button type="submit" class="edit-book">Comment</button>
+        </form>
+    </div>
+    {{else}}
+    <div id="login-to-comment-div">
+        <h3><a href="/users/login" style="color: blue;">Login</a> to comment</h3>
+    </div>
+    {{/if}}
+
+</div>
+<hr>
+<div id="all-comments">
+    {{#if comments}}
+    {{#each comments}}
+    <div id="one-comment">
+        <h4>{{body}}</h4>
+        <hr class="hr-comment">
+        <a href="/users/show/{{user}}">
+            <p>{{user}}</p>
+        </a>
+        {{#if ../loggedUser}}
+          {{#isEqual ../loggedUser user}}
+            <form action="/books/comment/delete/{{_id}}" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+          {{/isEqual}}
+        {{/if}}
+    </div>
+
+    {{/each}}
+    {{/if}}
+</div>
+
+<!--COMMENTS(BODY(string),USER(id),BOOK(id)) -->
+<!--USERS(NAME(string),_id(id)) -->
+
+<!--
+
+{{#isEqual par1 par2}}
+<p>Same</p>
+{{/isEqual}}
+
+ -->
 
 {{> footer}}

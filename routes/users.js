@@ -228,19 +228,19 @@ router.post("/admincsv", checkAuthentication, adminPermission, async (req, res) 
         await csvMaker(allBooks);
         await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
         req.flash("success_msg", "Csv sent to " + currentAdminEmail);
-        res.redirect("/users/admin");
+        return res.redirect("/users/admin");
 
     } catch (error) {
         req.flash("error_msg", "No books to parse.");
-        res.redirect("/users/admin");
+        return res.redirect("/users/admin");
     }
 });
 
 router.post("/make-admin/:userId", checkAuthentication, adminPermission, async (req, res) => {
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
-                                .populate('book')
-                                .exec();
+                                      .populate('book')
+                                      .exec();
     const userBooks = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });

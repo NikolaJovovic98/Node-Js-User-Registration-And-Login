@@ -358,3 +358,71 @@ hr{
   border: none;
   outline: none;
 }
+
+#comment-section{
+  width: 20%;
+  margin: auto;
+  margin-top: 40px;
+  padding: 5px;
+  border-radius: 7px;
+  background-color: rgba(193, 21, 21, 0.555);
+}
+
+#login-to-comment-div{
+  text-align: center;
+}
+
+#can-comment{
+  text-align: center;
+}
+
+#can-comment form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#can-comment form textarea{
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  margin: 10px;
+  padding: 5px;
+}
+
+#all-comments{
+
+margin-left: 15px;
+padding: 10px;
+}
+
+#one-comment{
+  background-color: lightsalmon;
+  padding: 10px;
+  margin: 15px;
+  border-radius: 15px 15px 15px 0px;
+  width: 30%;
+  border: 2px solid black;
+}
+
+#one-comment p {
+ font-weight: 800;
+}
+
+#one-comment button {
+  padding: 7px;
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  font-size: 18px;
+  color: white;
+  background-color: rgb(238, 49, 49);
+}
+
+.hr-comment {
+    border: 0;
+    height: 1px;
+    background: rgb(0, 0, 0);
+    background-image: linear-gradient(to right, rgb(29, 22, 22), rgb(0, 0, 0), rgb(39, 16, 16));
+}
