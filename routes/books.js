@@ -20,14 +20,9 @@ router.get("/", async (req, res) => {
         res.render("allBooks.hbs", {
             noBooks: "No books yet"
         });
-    }if(req.user){
-        res.render("allBooks.hbs", {
-            books: allBooks,
-            loggedUser:req.user._id
-        });
     }else{
         res.render("allBooks.hbs", {
-            books: allBooks,
+            books: allBooks
         });
     }
 });
@@ -82,6 +77,7 @@ router.post("/update/:bookName", async (req, res) => {
 //nadjemo korisnika koji je postavio knjigu i pomocu $pull-a brisemo onu knjigu koja se poklapa sa id-jem knjige koju brisemo 
 router.post("/delete/:bookName", checkAuthentication, async (req, res) => {
     const book = await Book.findOne({ name: req.params.bookName });
+    await Comment.deleteMany({book:book.name});
     await Book.findOneAndDelete({ name: req.params.bookName });
     await User.findOneAndUpdate({ _id: book.user }, {
         $pull: { book: book._id }

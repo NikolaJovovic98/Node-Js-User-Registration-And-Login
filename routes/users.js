@@ -2,6 +2,7 @@ const express = require('express'); //express framework
 const router = require("express").Router(); //izvuci Router tj mogucnost rutiranja iz expressa
 const User = require("../models/User"); //User model 
 const Book = require("../models/Book"); //Book model 
+const Comment = require("../models/Comment");
 const bcrypt = require("bcrypt");//za hasovanje pasvorda
 const passport = require("passport");
 const { checkAuthentication } = require("../config/auth");
@@ -197,10 +198,12 @@ router.post("/delete/:userId", checkAuthentication, adminPermission, async (req,
     const userBooksObject = await User.findOne({ _id: req.params.userId })
         .populate('book')
         .exec();
-    const userBooks = userBooksObject.book.map((book) => {
+    const userBooksImages = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
-    deleteImages(userBooks, async () => {
+    deleteImages(userBooksImages, async () => {
+        await Comment.deleteMany({user:user.name});
+        // await Comment.deleteMany({book:{$in:userBooksObject.book.name}});
         await User.findOneAndDelete({ _id: req.params.userId });
         await Book.deleteMany({ _id: { $in: user.book } });
         req.flash("success_msg", "User and his books successfully deleted!");
