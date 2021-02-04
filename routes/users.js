@@ -198,15 +198,15 @@ router.post("/delete/:userId", checkAuthentication, adminPermission, async (req,
     const userBooksObject = await User.findOne({ _id: req.params.userId })
         .populate('book')
         .exec();
-    const bookNames = userBooksObject.book.map((book)=>{
+    const bookNames = userBooksObject.book.map((book) => {
         return book.name;
-    }); 
+    });
     const userBooksImages = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
     deleteImages(userBooksImages, async () => {
-        await Comment.deleteMany({user:user.name});
-        await Comment.deleteMany({book:{$in:bookNames}});
+        await Comment.deleteMany({ user: user.name });
+        await Comment.deleteMany({ book: { $in: bookNames } });
         await User.findOneAndDelete({ _id: req.params.userId });
         await Book.deleteMany({ _id: { $in: user.book } });
         req.flash("success_msg", "User and his books successfully deleted!");
@@ -232,10 +232,13 @@ router.post("/admincsv", checkAuthentication, adminPermission, async (req, res) 
         const allBooks = await Book.find({});
         const currentAdminEmail = req.user.email;
         await csvMaker(allBooks);
-        await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
+        if (allBooks.length > 1) {
+            await mailSender(currentAdminEmail, "Admin Request", "AllBooks");
+        } else {
+            await mailSender(currentAdminEmail, "Admin Request", allBooks[0].name);
+        }
         req.flash("success_msg", "Csv sent to " + currentAdminEmail);
         return res.redirect("/users/admin");
-
     } catch (error) {
         req.flash("error_msg", "No books to parse.");
         return res.redirect("/users/admin");
@@ -245,18 +248,18 @@ router.post("/admincsv", checkAuthentication, adminPermission, async (req, res) 
 router.post("/make-admin/:userId", checkAuthentication, adminPermission, async (req, res) => {
     const user = await User.findOne({ _id: req.params.userId });
     const userBooksObject = await User.findOne({ _id: req.params.userId })
-                                      .populate('book')
-                                      .exec();
+        .populate('book')
+        .exec();
     const userBooks = userBooksObject.book.map((book) => {
         return uploadsFolder + book.img.substring(book.img.lastIndexOf("/") + 1);
     });
     deleteImages(userBooks, async () => {
-        await User.findByIdAndUpdate({ _id: req.params.userId },{
-            role:1,
-            book:[]
+        await User.findByIdAndUpdate({ _id: req.params.userId }, {
+            role: 1,
+            book: []
         });
         await Book.deleteMany({ _id: { $in: user.book } });
-        req.flash("success_msg",`User ${user.name} is now admin.`);
+        req.flash("success_msg", `User ${user.name} is now admin.`);
         res.redirect("/users/admin");
     });
 });

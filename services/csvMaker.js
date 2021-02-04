@@ -1,4 +1,4 @@
-const {createObjectCsvWriter} = require('csv-writer');
+const { createObjectCsvWriter } = require('csv-writer');
 
 //Prvo npm install csv-writer onda kreiramo ovaj createObjectCsvWriter
 //onda u module.exports eksportujemo funkciju koja ce da stvori novi csv fajl u zeljenom folderu
@@ -8,10 +8,10 @@ const {createObjectCsvWriter} = require('csv-writer');
 //mora da primi niz objekata! dakle npr const data = [{prvi objekat},{drugi objekat}...] dakle ne moze
 //da upise u csv fajl podatke ako samo proslijedimo objekat a ne niz objekata!
 
-module.exports = (async(bookObject) => {
+module.exports = (async (bookObject) => {
     let pathToCsv = __dirname + `/csv/${bookObject[0].name}.csv`;
-    if(bookObject.length>1){
-        pathToCsv = __dirname + `/csv/AllBooks.csv`
+    if (bookObject.length > 1) {
+        pathToCsv = __dirname + `/csv/AllBooks.csv`;
     }
     const csvWriter = createObjectCsvWriter({
         path: pathToCsv,
@@ -23,10 +23,9 @@ module.exports = (async(bookObject) => {
             { id: 'pages', title: 'PAGES' },
         ]
     });
-
-     csvWriter.writeRecords(bookObject).then(()=>{
-         console.log("CSV created");
-     });
+    csvWriter.writeRecords(bookObject).then(() => {
+        console.log("CSV created");
+    });
 });
 
 
